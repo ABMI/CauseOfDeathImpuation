@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1584319537524.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "EDC13D9C",
+    "lastKnownWriteTime" : 1584318272,
+    "last_content_update" : 1584318272,
+    "path" : "~/ted9219/git/ABMI/CauseOfDeathImputation/extras/CodeToRun.R",
+    "project_path" : "extras/CodeToRun.R",
+    "properties" : {
+        "cursorPosition" : "56,0",
+        "scrollLine" : "33"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
