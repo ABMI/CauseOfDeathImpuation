@@ -23,7 +23,8 @@ Imports:
   ParallelLogger,
   OhdsiSharing,
   dplyr,
-  randomForest,
+  rJava,
+  xlsx,
   caret,
   pROC,
   ROCR
