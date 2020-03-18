@@ -95,7 +95,7 @@ createImputationData <- function(outputFolder, TAR) {
   df4 <- outList[[1]]$demographics
   df4$covariateId <- as.factor(df4$covariateId)
   
-  lev <- c(8532001, 1002, seq(1003, 18003, by = 1000))
+  lev <- c(8532001, 1002, seq(3, 19003, by = 1000))
   levels <- levels(df4$covariateId)
   diff <- setdiff(lev, levels)
   blank <- rep(0, nrow(df3))

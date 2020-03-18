@@ -46,7 +46,7 @@ causeImputation <- function(outputFolder, TAR){
   dataTestResult$cause.prediction <- predict(cause.model, dataTest)
   #dataTestResult$cause.value <- predict(cause.model, dataTest, type = "prob")
   
-  dataTestResult <- dataTestResult %>% select(1:22, cause.prediction)
+  dataTestResult <- dataTestResult %>% select(1:24, cause.prediction)
   
   
   
@@ -146,7 +146,7 @@ causeImputation <- function(outputFolder, TAR){
   
   temp <- data.frame(cause.prediction = c(0:8,99))
   
-  for(j in 1:18){
+  for(j in 1:20){
       temp2 <- dataTestResult[dataTestResult[j+4] == 1,]
       temp2 <- temp2 %>% 
         group_by(cause.prediction) %>%
@@ -156,19 +156,20 @@ causeImputation <- function(outputFolder, TAR){
     temp[is.na(temp)] <- 0
   }
   
-  temp <- temp %>% select(cause.prediction, paste(seq(1003, 18003, by = 1000)))
-  table5 <- rename(temp, "0-4"="1003", "5-9"="2003", "10-14"="3003", 
-                   "15-19"="4003", "20-24"="5003", "25-29"="6003", 
-                   "30-34"="7003", "35-39"="8003", "40-44"="9003", "45-49"="10003",
-                   "50-54"="11003","55-59"="12003","60-64"="13003","65-69"="14003",
-                   "70-74"="15003","75-79"="16003","80-84"="17003","85-89"="18003")
+  temp <- temp %>% select(cause.prediction, paste(seq(3, 19003, by = 1000)))
+  table5 <- rename(temp, "0-4"="3", "5-9"="1003", "10-14"="2003", 
+                   "15-19"="3003", "20-24"="4003", "25-29"="5003", 
+                   "30-34"="6003", "35-39"="7003", "40-44"="8003", "45-49"="9003",
+                   "50-54"="10003","55-59"="11003","60-64"="12003","65-69"="13003",
+                   "70-74"="14003","75-79"="15003","80-84"="16003","85-89"="17003",
+                   "90-94"="18003", "95-99"="19003")
   
   table6 <- table5 %>% filter (cause.prediction != 0)
   table5 <- merge(causeName, table5, by = "cause.prediction", all.x = T) %>% select(-cause.prediction)
   
-  deathCountAge <- colSums(table6)[2:19] 
+  deathCountAge <- colSums(table6)[2:21] 
  
-   for(i in 1:18){
+   for(i in 1:20){
     table6[,i+1] <- round(table6[,i+1]/deathCountAge[i]*100 ,2)
   }
   table6 <- merge(causeName[causeName$CauseName!="No Death",],
@@ -177,14 +178,14 @@ causeImputation <- function(outputFolder, TAR){
   
   table7 <- table6
   
-  for(i in 1:18){
+  for(i in 1:20){
     temp <- table7 %>%
       select(CauseName, i+1)
     temp <- temp %>% arrange(desc(temp[,2]))
     temp[is.na(temp)] <- "-"
     table7[,i+1] <- paste0(temp[,1], " (", temp[,2],"%)")
   }
-  table7 <- table7 %>% mutate(Rank = c(1:9)) %>% select (Rank, 2:19)
+  table7 <- table7 %>% mutate(Rank = c(1:9)) %>% select (Rank, 2:21)
   
   
   #Age groups in 10 years
@@ -193,7 +194,7 @@ causeImputation <- function(outputFolder, TAR){
   #table 10 - rank by age group in 5 year
   
   table8 <- data.frame(cause.prediction = c(0:8,99))
-  for(i in 1:9){
+  for(i in 1:10){
     table8[i+1] <- table5[2*i]+table5[2*i+1]
     colnames(table8)[i+1] <- paste0(strsplit(colnames(table5[2*i]),"-")[[1]][1],
                                     "-", strsplit(colnames(table5[2*i+1]),"-")[[1]][2])
@@ -207,9 +208,9 @@ causeImputation <- function(outputFolder, TAR){
   levels(table8$CauseName) <- c(levels(table8$CauseName), "Total")
   table8$CauseName[11] <- "Total"
   
-  deathCountAge10 <- colSums(table9[2:10])
+  deathCountAge10 <- colSums(table9[2:11])
   
-  for(i in 1:9){
+  for(i in 1:10){
     table9[,i+1] <- round(table9[,i+1]/deathCountAge10[i]*100 ,2)
   }
   table9 <- merge(causeName[causeName$CauseName!="No Death",], table9, by = "cause.prediction", all.x = T) %>% select(-cause.prediction)
@@ -217,23 +218,16 @@ causeImputation <- function(outputFolder, TAR){
   
   table10 <- table9
   
-  for(i in 1:9){
+  for(i in 1:10){
     temp <- table10 %>%
       select(CauseName, i+1)
     temp <- temp %>% arrange(desc(temp[,2]))
     temp[is.na(temp)] <- "-"
     table10[,i+1] <- paste0(temp[,1], " (", temp[,2],"%)")
   }
-  table10 <- table10 %>% mutate(Rank = c(1:9)) %>% select (Rank, 2:10)
+  table10 <- table10 %>% mutate(Rank = c(1:9)) %>% select (Rank, 2:11)
   
 
-  # outDFdemographics <- rename(outDFdemographics, "ageYr"="1002", "0-4"="1003", "5-9"="2003",
-  #        "10-14"="3003", "15-19"="4003", "20-24"="5003", "25-29"="6003",
-  #        "30-34"="7003", "35-39"="8003", "40-44"="9003", "45-49"="10003",
-  #        "50-54"="11003","55-59"="12003","60-64"="13003","65-69"="14003",
-  #        "70-74"="15003","75-79"="16003","80-84"="17003","85-89"="18003",
-  #        "Female"="8532001")
-  
   ### Save files in saveFolder
   ParallelLogger::logInfo("Saving the results...")
   
