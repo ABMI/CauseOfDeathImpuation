@@ -191,10 +191,10 @@ externalValidatePlp <- function(plpResult,
       results[[i]]$cohorts <- cohorts
       
       demographics <- as.data.frame(newData$plpData$covariates) %>%
-        filter(covariateId %in% c(8532001, 1002, seq(1003, 18003, by = 1000)))
+        filter(covariateId %in% c(8532001, 1002, seq(3, 19003, by = 1000)))
       demographicsRef <- as.data.frame(newData$plpData$covariateRef) %>% 
         select (covariateId, covariateName) %>%
-        filter(covariateId %in% c(8532001, 1002, seq(1003, 18003, by = 1000)))
+        filter(covariateId %in% c(8532001, 1002, seq(3, 19003, by = 1000)))
       demographics <- merge(x = demographics, y = demographicsRef, by = "covariateId", all.x = T)
       
       results[[i]]$demographics <- demographics
